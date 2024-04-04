@@ -16,10 +16,10 @@ abstract class APIHelper {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface APIClientI {
-  get: <T>(url: string) => Promise<AxiosResponse<T>>;
+  get: <T>(url: string) => Promise<AxiosResponse<T>> | undefined;
   post: <T>(url: string, body: object) => Promise<AxiosResponse<T>> | undefined;
-  put: <T>(url: string, body: object) => Promise<AxiosResponse<T>>;
-  delete: <T>(url: string) => Promise<AxiosResponse<T>>;
+  put: <T>(url: string, body: object) => Promise<AxiosResponse<T>> | undefined;
+  delete: <T>(url: string) => Promise<AxiosResponse<T>> | undefined;
 }
 //TODO: @MelindaH26 -> These methods need better error logging. Please refer to this doc: https://axios-http.com/docs/handling_errors
 class APIClient extends APIHelper implements APIClientI {
@@ -27,8 +27,12 @@ class APIClient extends APIHelper implements APIClientI {
     super();
   }
 
-  get<T>(url: string): Promise<AxiosResponse<T>> {
-    return this.instance.get(url);
+  get<T>(url: string): Promise<AxiosResponse<T>> | undefined {
+    try {
+      return this.instance.get(url);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   post<T>(url: string, body: object): Promise<AxiosResponse<T>> | undefined {

@@ -1,6 +1,6 @@
 import { DatabaseClient, User, Gift, GiftGivingSession } from ".";
 import { mockData } from "../mockData/mockData";
-async function clearDB() {
+export async function clearDB() {
   try {
     Promise.all([
       await DatabaseClient.clearTable("Users"),
@@ -13,7 +13,7 @@ async function clearDB() {
   }
 }
 
-async function seedDB() {
+export async function seedDB() {
   try {
     await Promise.all([
       mockData.mockUsers.forEach(async (user) => {
